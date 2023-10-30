@@ -37,4 +37,9 @@ public class AwsController {
     public ResponseEntity<Integer> getS3FilesCount(@PathVariable String name) {
         return ResponseEntity.ok(awsService.getS3FilesCount(name));
     }
+
+    @GetMapping("/s3/bucket/{name}/like/{pattern}")
+    public ResponseEntity<List<String>> getS3Files(@PathVariable String name, @PathVariable String pattern) {
+        return ResponseEntity.ok(awsService.getS3Files(name, pattern));
+    }
 }

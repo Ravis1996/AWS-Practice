@@ -12,4 +12,6 @@ public interface AwsService {
 
     Integer getS3FilesCount(String name);
 
+    List<String> getS3Files(String name, String pattern);
+
 }

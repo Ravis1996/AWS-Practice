@@ -72,6 +72,14 @@ public class AwsServiceImpl implements AwsService {
         return serviceRecord.getFiles().size();
     }
 
+    @Override
+    public List<String> getS3Files(String name, String pattern) {
+        ServiceRecord serviceRecord = awsRepository.findByNameAndType(name, "S3");
+        return serviceRecord.getFiles().stream()
+                .filter(value -> value.toLowerCase().contains(pattern.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
     private List<String> listBucketObjects(S3Client s3, String bucketName) {
 
         List<String> files = new ArrayList<>();

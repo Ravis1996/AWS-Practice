@@ -26,4 +26,10 @@ public class AwsController {
     public ResponseEntity<List<String>> getData(@PathVariable String type) {
         return ResponseEntity.ok(awsService.getData(type));
     }
+
+    @GetMapping("/s3/{name}/files")
+    public ResponseEntity<Void> getS3Data(@PathVariable String name) {
+        awsService.getS3Data(name);
+        return ResponseEntity.ok().build();
+    }
 }

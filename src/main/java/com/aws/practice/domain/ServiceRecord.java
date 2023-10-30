@@ -3,10 +3,8 @@ package com.aws.practice.domain;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -19,6 +17,11 @@ public class ServiceRecord {
     private String name;
     private String type;
     private String jobId;
+
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "files", joinColumns = @JoinColumn(name = "service_id"))
+    @Column(name = "file", nullable = false)
+    private List<String> files;
 
     public ServiceRecord(String name,String type ,String jobId) {
         this.name = name;
@@ -56,5 +59,13 @@ public class ServiceRecord {
 
     public void setJobId(String jobId) {
         this.jobId = jobId;
+    }
+
+    public List<String> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<String> files) {
+        this.files = files;
     }
 }

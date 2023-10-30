@@ -21,6 +21,12 @@ public class ServiceRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String type;
     private String jobId;
 
+    public ServiceRecord(String name,String type ,String jobId) {
+        this.name = name;
+        this.type = type;
+        this.jobId = jobId;
+    }
 }

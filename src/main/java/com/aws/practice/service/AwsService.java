@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface AwsService {
 
-    List<String> createService(List<String> services);
+    void createService(List<String> services);
 }

@@ -14,7 +14,20 @@ public class AwsServiceImpl implements AwsService {
     private AwsRepository awsRepository;
 
     @Override
-    public List<String> createService(List<String> services) {
-        return null;
+    public void createService(List<String> services) {
+
+        services.forEach(s -> {
+            if(s.equals("EC2")) {
+                Ec2Service ec2Service = new Ec2Service();
+                Thread t1 = new Thread(ec2Service);
+                t1.start();
+
+            } else if(s.equals("S3")) {
+                S3Service s3Service = new S3Service();
+                Thread t2 = new Thread(s3Service);
+                t2.start();
+            }
+        });
     }
+
 }

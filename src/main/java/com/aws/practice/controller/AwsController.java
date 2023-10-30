@@ -19,7 +19,8 @@ public class AwsController {
     private AwsService awsService;
 
     @PostMapping
-    public ResponseEntity<List<String>> createService(List<String> services) {
-        return ResponseEntity.ok(awsService.createService(services));
+    public ResponseEntity<Void> createService(List<String> services) {
+        awsService.createService(services);
+        return ResponseEntity.ok().build();
     }
 }

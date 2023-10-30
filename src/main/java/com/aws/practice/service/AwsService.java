@@ -10,4 +10,6 @@ public interface AwsService {
 
     void getS3Data(String name);
 
+    Integer getS3FilesCount(String name);
+
 }

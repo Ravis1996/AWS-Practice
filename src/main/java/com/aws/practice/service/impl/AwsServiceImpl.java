@@ -66,6 +66,12 @@ public class AwsServiceImpl implements AwsService {
         awsRepository.save(serviceRecord);
     }
 
+    @Override
+    public Integer getS3FilesCount(String name) {
+        ServiceRecord serviceRecord = awsRepository.findByNameAndType(name, "S3");
+        return serviceRecord.getFiles().size();
+    }
+
     private List<String> listBucketObjects(S3Client s3, String bucketName) {
 
         List<String> files = new ArrayList<>();

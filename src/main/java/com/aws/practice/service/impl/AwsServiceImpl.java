@@ -1,11 +1,13 @@
 package com.aws.practice.service.impl;
 
+import com.aws.practice.domain.ServiceRecord;
 import com.aws.practice.repository.AwsRepository;
 import com.aws.practice.service.AwsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AwsServiceImpl implements AwsService {
@@ -28,6 +30,18 @@ public class AwsServiceImpl implements AwsService {
                 t2.start();
             }
         });
+    }
+
+    @Override
+    public List<String> getData(String type) {
+        List<ServiceRecord> records = awsRepository.findAll().stream()
+                .filter(serviceRecord -> type.equals(serviceRecord.getType())).collect(Collectors.toList());
+        if("EC2".equals(type)) {
+            return records.stream().map(ServiceRecord::getJobId).collect(Collectors.toList());
+        } else if("S3".equals(type)) {
+            return records.stream().map(ServiceRecord::getName).collect(Collectors.toList());
+        }
+        return null;
     }
 
 }

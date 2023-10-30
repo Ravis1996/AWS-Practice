@@ -4,9 +4,7 @@ import com.aws.practice.service.AwsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,8 +17,13 @@ public class AwsController {
     private AwsService awsService;
 
     @PostMapping
-    public ResponseEntity<Void> createService(List<String> services) {
+    public ResponseEntity<Void> createService(@RequestBody List<String> services) {
         awsService.createService(services);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/type/{type}")
+    public ResponseEntity<List<String>> getData(@PathVariable String type) {
+        return ResponseEntity.ok(awsService.getData(type));
     }
 }

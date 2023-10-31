@@ -2,7 +2,6 @@ package com.aws.practice.service.impl;
 
 import com.aws.practice.domain.ServiceRecord;
 import com.aws.practice.repository.AwsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.services.ec2.Ec2Client;
@@ -11,12 +10,15 @@ import software.amazon.awssdk.services.ec2.model.*;
 @Service
 public class Ec2Service implements Runnable{
 
-    @Autowired
     private AwsRepository awsRepository;
+
+    public Ec2Service(AwsRepository awsRepository) {
+        this.awsRepository = awsRepository;
+    }
 
     @Override
     public void run() {
-        software.amazon.awssdk.regions.Region region = software.amazon.awssdk.regions.Region.AP_SOUTHEAST_1;
+        software.amazon.awssdk.regions.Region region = software.amazon.awssdk.regions.Region.AP_SOUTH_1;
         Ec2Client ec2 = Ec2Client.builder()
                 .region(region)
                 .credentialsProvider(ProfileCredentialsProvider.create())

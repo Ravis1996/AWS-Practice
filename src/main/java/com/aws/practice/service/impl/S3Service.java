@@ -2,7 +2,6 @@ package com.aws.practice.service.impl;
 
 import com.aws.practice.domain.ServiceRecord;
 import com.aws.practice.repository.AwsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.core.waiters.WaiterResponse;
@@ -16,19 +15,22 @@ import software.amazon.awssdk.services.s3.waiters.S3Waiter;
 @Service
 public class S3Service implements Runnable{
 
-    @Autowired
     private AwsRepository awsRepository;
+
+    public S3Service(AwsRepository awsRepository) {
+        this.awsRepository = awsRepository;
+    }
 
     @Override
     public void run() {
-        software.amazon.awssdk.regions.Region region = software.amazon.awssdk.regions.Region.AP_SOUTHEAST_1;
+        software.amazon.awssdk.regions.Region region = software.amazon.awssdk.regions.Region.AP_SOUTH_1;
 
         ProfileCredentialsProvider credentialsProvider = ProfileCredentialsProvider.create();
         S3Client s3 = S3Client.builder()
                 .region(region)
                 .credentialsProvider(credentialsProvider)
                 .build();
-        String name = "kartika";
+        String name = "demobucket1026";
 
         String id = createBucket(s3,name);
         ServiceRecord record = new ServiceRecord( name, "S3" ,id);
@@ -49,7 +51,7 @@ public class S3Service implements Runnable{
 
             WaiterResponse<HeadBucketResponse> waiterResponse = s3Waiter.waitUntilBucketExists(bucketRequestWait);
             waiterResponse.matched().response().ifPresent(System.out::println);
-            System.out.println(bucketName +" is ready");
+            return waiterResponse.matched().response().get().responseMetadata().requestId();
         } catch (S3Exception e) {
             System.err.println(e.awsErrorDetails().errorMessage());
         }

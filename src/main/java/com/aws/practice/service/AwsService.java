@@ -8,7 +8,7 @@ public interface AwsService {
 
     List<String> getData(String type);
 
-    void getS3Data(String name);
+    String getS3Data(String name);
 
     Integer getS3FilesCount(String name);
 

@@ -17,16 +17,18 @@ public class ServiceRecord {
     private String name;
     private String type;
     private String jobId;
+    private String instanceId;
 
     @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "files", joinColumns = @JoinColumn(name = "service_id"))
     @Column(name = "file", nullable = false)
     private List<String> files;
 
-    public ServiceRecord(String name,String type ,String jobId) {
+    public ServiceRecord(String name,String type ,String jobId, String instanceId) {
         this.name = name;
         this.type = type;
         this.jobId = jobId;
+        this.instanceId = instanceId;
     }
 
     public Long getId() {
@@ -67,5 +69,13 @@ public class ServiceRecord {
 
     public void setFiles(List<String> files) {
         this.files = files;
+    }
+
+    public String getInstanceId() {
+        return instanceId;
+    }
+
+    public void setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
     }
 }

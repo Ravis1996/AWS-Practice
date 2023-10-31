@@ -33,7 +33,7 @@ public class S3Service implements Runnable{
         String name = "demobucket1026";
 
         String id = createBucket(s3,name);
-        ServiceRecord record = new ServiceRecord( name, "S3" ,id);
+        ServiceRecord record = new ServiceRecord( name, "S3" ,id, null);
         awsRepository.save(record);
     }
 

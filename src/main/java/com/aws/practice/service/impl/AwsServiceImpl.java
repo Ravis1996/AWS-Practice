@@ -47,7 +47,7 @@ public class AwsServiceImpl implements AwsService {
         List<ServiceRecord> records = awsRepository.findAll().stream()
                 .filter(serviceRecord -> type.equals(serviceRecord.getType())).collect(Collectors.toList());
         if("EC2".equals(type)) {
-            return records.stream().map(ServiceRecord::getJobId).collect(Collectors.toList());
+            return records.stream().map(ServiceRecord::getInstanceId).collect(Collectors.toList());
         } else if("S3".equals(type)) {
             return records.stream().map(ServiceRecord::getName).collect(Collectors.toList());
         }

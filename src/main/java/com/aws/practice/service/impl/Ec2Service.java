@@ -23,10 +23,8 @@ public class Ec2Service implements Runnable{
                 .region(region)
                 .credentialsProvider(ProfileCredentialsProvider.create())
                 .build();
-        String name = "kartika";
-        String instanceId = createEC2Instance(ec2, name ,"ami-06791f9213cbb608b");
-        ServiceRecord record = new ServiceRecord( name, "EC2" ,instanceId);
-        awsRepository.save(record);
+        String name = "kr_08";
+        String requestId = createEC2Instance(ec2, name ,"ami-06791f9213cbb608b");
     }
 
     private String createEC2Instance(Ec2Client ec2, String name, String amiId)  {
@@ -40,6 +38,7 @@ public class Ec2Service implements Runnable{
 
         RunInstancesResponse response = ec2.runInstances(runRequest);
         String instanceId = response.instances().get(0).instanceId();
+        String requestId = response.responseMetadata().requestId();
 
         Tag tag = Tag.builder()
                 .key("Name")
@@ -56,13 +55,12 @@ public class Ec2Service implements Runnable{
             System.out.printf(
                     "Successfully started EC2 Instance %s based on AMI %s",
                     instanceId, amiId);
-
-            return instanceId;
-
         } catch (Ec2Exception e) {
             System.err.println(e.awsErrorDetails().errorMessage());
         }
-        return "";
+        ServiceRecord record = new ServiceRecord( name, "EC2", requestId, instanceId);
+        awsRepository.save(record);
+        return requestId;
     }
 
 }
